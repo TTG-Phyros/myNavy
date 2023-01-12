@@ -11,10 +11,11 @@ CFLAGS			=				-W -Wall -Werror
 
 SRC				=		./src/main.c				\
 						./src/connection.c			\
-						./src/void_manipulation.c	\
+						./src/int_manipulation.c	\
 						./src/file_gestion.c		\
 						./src/signal_handling.c		\
 						./src/error_handling.c		\
+						./src/str_manipulation.c	\
 
 OBJ				=				$(SRC:.c=.o)
 

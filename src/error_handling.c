@@ -28,12 +28,14 @@ int error_gestion_file(char **map)
 
 int error_gestion_arguments(int ac, char **av)
 {
-    int index = 1;
-    if (ac == 3)
-        index = 2;
     if (ac > 3) {
         write(2, "Too many arguments.\n", 21);
         return 84;
+    }
+    int index = 1, pid = display_pid();
+    if (ac == 3) {
+        send_pid(pid, av[1]);
+        index = 2;
     }
     if (ac == 2)
         if (av[1][0] == '-' && av[1][1] == 'h' && !av[1][2]) {
@@ -45,6 +47,5 @@ int error_gestion_arguments(int ac, char **av)
         write(2, "File not valid.\n", 17);
         return 84;
     }
-    display_pid();
     return 0;
 }

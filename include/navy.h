@@ -16,15 +16,21 @@
     #include <stdio.h>
     //=============
 
-    // * void_manipulation.c
+    // * int_manipulation.c
+    int intlen(int nb);
+    int my_compute_power_it(int nb, int p);
+    int *decimal_to_binary(int nb);
+
+    // * str_manipulation.c
     char *my_revstr(char *str);
     int str_to_int(char *str);
-    int my_strlen(char *str);
-    int intlen(int nb);
     char *int_to_str(int nb);
+    int my_strlen(char *str);
+
 
     // * connection.c
-    void display_pid(void);
+    int display_pid(void);
+    void send_pid(int pid, char *str);
 
     // * signal_handling.c
     void sig_handler(int signo);

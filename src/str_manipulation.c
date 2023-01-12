@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2023
 ** my_navy
 ** File description:
-** void_manipulation
+** str_manipulation
 */
 
 #include "../include/navy.h"
@@ -48,14 +48,6 @@ char *int_to_str(int nb)
     }
     my_revstr(str);
     return str;
-}
-
-int intlen(int nb)
-{
-    int i = 1;
-    for (; nb > 0; i++)
-        nb /= 10;
-    return i;
 }
 
 int my_strlen(char *str)
