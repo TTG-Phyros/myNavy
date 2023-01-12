@@ -15,21 +15,15 @@ void flag_h(void)
     write(1, "file representing the positions of the ships.", 46);
 }
 
-int error_gestion_arguments(int ac, char **av)
-{
-    if (ac > 3) {
-        write(2, "Too many arguments.\n", 21);
-        return 84;
-    }
-    if (ac == 2)
-        if (av[1][0] == '-' && av[1][1] == 'h' && !av[1][2])
-            flag_h();
-    return 0;
-}
-
 int main(int ac, char **av)
 {
+    int counter_o = 0, counter_t = 0;
     if (error_gestion_arguments(ac, av) == 84)
         return 84;
+    while (1) {
+        if (signal_handling(&counter_o, &counter_t) == 1)
+            return 0;
+        sleep(1);
+    }
     return 0;
 }

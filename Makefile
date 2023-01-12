@@ -10,6 +10,11 @@ NAME			=				navy
 CFLAGS			=				-W -Wall -Werror
 
 SRC				=		./src/main.c				\
+						./src/connection.c			\
+						./src/void_manipulation.c	\
+						./src/file_gestion.c		\
+						./src/signal_handling.c		\
+						./src/error_handling.c		\
 
 OBJ				=				$(SRC:.c=.o)
 
