@@ -36,6 +36,7 @@
     void sig_handler(int signo);
     int quit_handler(int counter_o, int counter_t);
     int signal_handling(int *counter_o, int *counter_t);
+    int *receive_pid(void);
 
     // * file_gestion.c
     int compt_nb_lines(char *filepath);

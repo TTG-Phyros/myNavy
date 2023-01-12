@@ -27,3 +27,28 @@ int *decimal_to_binary(int nb)
     }
     return ans;
 }
+
+int my_compute_power_it (int nb, int p)
+{
+    int pow = nb;
+    if (p > 0) {
+        for (int i = 1; i != p; i++)
+            nb = nb * pow;
+        return nb;
+    } else if (p < 0) {
+        return 0;
+    } else {
+        return 1;
+    }
+}
+
+int binary_to_decimal(long long int nb)
+{
+    int ans = 0, temp;
+    for (int i = 0; nb != 0; i++) {
+        temp = nb % 10;
+        nb /= 10;
+        ans += temp * my_compute_power_it(2, i);
+    }
+    return ans;
+}

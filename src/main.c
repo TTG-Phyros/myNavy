@@ -20,10 +20,11 @@ int main(int ac, char **av)
     int counter_o = 0, counter_t = 0;
     if (error_gestion_arguments(ac, av) == 84)
         return 84;
-    while (1) {
-        if (signal_handling(&counter_o, &counter_t) == 1)
-            return 0;
-        sleep(1);
-    }
+    receive_pid();
+    // while (1) {
+    if (signal_handling(&counter_o, &counter_t) == 1)
+        return 0;
+    sleep(1);
+    //}
     return 0;
 }
