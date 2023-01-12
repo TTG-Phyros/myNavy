@@ -41,9 +41,11 @@ char **file_to_array(char *filepath)
         return NULL;
     size_t len = 0;
     ssize_t read;
-    for (int point = 0; (read = getline(&line, &len, fp)) != -1; point++) {
+    int point = 0;
+    for (; (read = getline(&line, &len, fp)) != -1; point++) {
         map[point] = malloc((read + 1) * sizeof(char));
         my_strcat(map[point], line);
     }
+    map[point] = NULL;
     return map;
 }
