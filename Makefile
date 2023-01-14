@@ -7,7 +7,7 @@
 
 NAME			=				navy
 
-CFLAGS			=				-W -Wall -Werror
+CFLAGS			=				-W -Wall
 
 SRC				=		./src/main.c				\
 						./src/connection.c			\
@@ -16,6 +16,8 @@ SRC				=		./src/main.c				\
 						./src/signal_handling.c		\
 						./src/error_handling.c		\
 						./src/str_manipulation.c	\
+						./src/game.c				\
+						./src/map.c					\
 
 OBJ				=				$(SRC:.c=.o)
 

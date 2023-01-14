@@ -11,7 +11,8 @@ char *my_revstr(char *str)
 {
     int i = 0;
     char temp;
-    for (; str[i] != '\0'; i++);
+    for (; str[i] != '\0'; i++)
+        ;
     i--;
     for (int j = 0; j <= i / 2; j++, i--) {
         temp = str[j];
@@ -56,4 +57,16 @@ int my_strlen(char *str)
     for (; str[i]; i++)
         ;
     return i;
+}
+
+char *space_str(char *str)
+{
+    char *ans = malloc(sizeof(char) * (my_strlen(str) + 1) * 2);
+    for (int i = 0, j = 0; str[j]; i++) {
+        if (i % 2 == 0)
+            ans[i] = str[j++];
+        else
+            ans[i] = ' ';
+    }
+    return ans;
 }

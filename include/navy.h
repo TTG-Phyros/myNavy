@@ -20,16 +20,18 @@
     int intlen(int nb);
     int my_compute_power_it(int nb, int p);
     int *decimal_to_binary(int nb);
+    int binary_to_decimal(int *list_nb);
 
     // * str_manipulation.c
     char *my_revstr(char *str);
     int str_to_int(char *str);
     char *int_to_str(int nb);
     int my_strlen(char *str);
+    char *space_str(char *str);
 
 
     // * connection.c
-    int display_pid(void);
+    int display_pid(int ac);
     void send_pid(int pid, char *str);
 
     // * signal_handling.c
@@ -49,5 +51,13 @@
     // * main.c
     int main(int ac, char **av);
     void flag_h(void);
+
+    // * game.c
+    void game(int receiver_pid, char *filepath);
+
+    // * map.c
+    char **create_empty_map(void);
+    void i_love_c_one(char **map, char **coords, int i, int j);
+    char **create_map_from_file(char *fp);
 
 #endif

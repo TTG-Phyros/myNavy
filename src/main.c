@@ -17,14 +17,17 @@ void flag_h(void)
 
 int main(int ac, char **av)
 {
-    int counter_o = 0, counter_t = 0;
+    int client_pid;
     if (error_gestion_arguments(ac, av) == 84)
         return 84;
-    receive_pid();
-    // while (1) {
-    if (signal_handling(&counter_o, &counter_t) == 1)
-        return 0;
-    sleep(1);
-    //}
-    return 0;
+    if (ac == 2) {
+        client_pid = binary_to_decimal(receive_pid());
+        write(1, "\nenemy connected\n", 18);
+        game(client_pid, av[1]);
+    }
+    if (ac == 3) {
+        write(1, "\nsuccessfully connected\n", 25);
+        game(str_to_int(av[1]), av[2]);
+    }
+    return client_pid = 0;
 }

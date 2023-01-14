@@ -7,8 +7,23 @@
 
 #include "../include/navy.h"
 
+int good_boat_check(char **map)
+{
+    for (int i = 0, good = 0; map[i]; i++, good = 0) {
+        if (map[i][5] - map[i][2] == map[i][0] - '0' - 1)
+            good++;
+        if (map[i][6] - map[i][3] == map[i][0] - '0' - 1)
+            good++;
+        if (good != 1)
+            return 84;
+    }
+    return 0;
+}
+
 int error_gestion_file(char **map)
 {
+    if (map == NULL)
+        return 84;
     for (int i = 0; map[i]; i++) {
         if (map[i][0] > '5' || map[i][0] < '2')
             return 84;
@@ -23,29 +38,46 @@ int error_gestion_file(char **map)
         if (map[i][7] != '\n' && map[i][7] != '\0')
             return 84;
     }
+    return good_boat_check(map);
+}
+
+int error_text_display(int choice)
+{
+    if (choice == 1) {
+        write(2, "Too many arguments.\n", 21);
+        return 84;
+    }
+    if (choice == 2) {
+        write(2, "Not enought arguments.\n", 24);
+        return 84;
+    }
+    if (choice == 3) {
+        write(2, "File not valid.\n", 17);
+        return 84;
+    }
+    if (choice == 4) {
+        flag_h();
+        return 1;
+    }
     return 0;
 }
 
 int error_gestion_arguments(int ac, char **av)
 {
-    if (ac > 3) {
-        write(2, "Too many arguments.\n", 21);
-        return 84;
-    }
-    int index = 1, pid = display_pid();
+    if (ac > 3)
+        return error_text_display(1);
+    if (ac < 2)
+        return error_text_display(2);
+    int index = 1, pid = display_pid(ac);
     if (ac == 3) {
         send_pid(pid, av[1]);
         index = 2;
     }
     if (ac == 2)
-        if (av[1][0] == '-' && av[1][1] == 'h' && !av[1][2]) {
-            flag_h();
-            return 1;
-        }
+        if (av[1][0] == '-' && av[1][1] == 'h' && !av[1][2])
+            return error_text_display(4);
     char **map = file_to_array(av[index]);
-    if (error_gestion_file(map) == 84) {
-        write(2, "File not valid.\n", 17);
-        return 84;
-    }
+    if (error_gestion_file(map) == 84)
+        return error_text_display(3);
     return 0;
 }
