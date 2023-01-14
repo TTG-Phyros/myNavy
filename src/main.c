@@ -17,9 +17,11 @@ void flag_h(void)
 
 int main(int ac, char **av)
 {
-    int client_pid;
-    if (error_gestion_arguments(ac, av) == 84)
+    int client_pid, error = error_gestion_arguments(ac, av);
+    if (error == 84)
         return 84;
+    if (error == 1)
+        return 0;
     if (ac == 2) {
         client_pid = binary_to_decimal(receive_pid());
         write(1, "\nenemy connected\n", 18);

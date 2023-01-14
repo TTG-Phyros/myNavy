@@ -68,14 +68,14 @@ int error_gestion_arguments(int ac, char **av)
         return error_text_display(1);
     if (ac < 2)
         return error_text_display(2);
+    if (ac == 2)
+        if (av[1][0] == '-' && av[1][1] == 'h' && !av[1][2])
+            return error_text_display(4);
     int index = 1, pid = display_pid(ac);
     if (ac == 3) {
         send_pid(pid, av[1]);
         index = 2;
     }
-    if (ac == 2)
-        if (av[1][0] == '-' && av[1][1] == 'h' && !av[1][2])
-            return error_text_display(4);
     char **map = file_to_array(av[index]);
     if (error_gestion_file(map) == 84)
         return error_text_display(3);
