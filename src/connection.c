@@ -20,7 +20,7 @@ int display_pid(int ac)
 
 void send_pid(int pid, char *str)
 {
-    int *binary_pid = decimal_to_binary(pid), host = str_to_int(str);
+    int *binary_pid = decimal_to_binary(pid, 22), host = str_to_int(str);
     for (int i = 0; i <= 22; i++) {
         usleep(10000);
         if (binary_pid[i] == 0) {

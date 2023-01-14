@@ -22,11 +22,14 @@ int good_boat_check(char **map)
 
 int error_gestion_file(char **map)
 {
-    if (map == NULL)
-        return 84;
+    int *boats = malloc(sizeof(int) * 4);
+    if (map == NULL) return 84;
     for (int i = 0; map[i]; i++) {
-        if (map[i][0] > '5' || map[i][0] < '2')
+        if (map[i][0] > '5' || map[i][0] < '2') return 84;
+        if (boats[map[i][0] - '0' - 2] == 1)
             return 84;
+        else
+            boats[map[i][0] - '0' - 2] = 1;
         if (map[i][1] != ':' || map[i][4] != ':')
             return 84;
         if (map[i][2] > 'H' || map[i][2] < 'A' ||

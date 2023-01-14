@@ -19,8 +19,8 @@
     // * int_manipulation.c
     int intlen(int nb);
     int my_compute_power_it(int nb, int p);
-    int *decimal_to_binary(int nb);
-    int binary_to_decimal(int *list_nb);
+    int *decimal_to_binary(int nb, int len);
+    int binary_to_decimal(int *list_nb, int len);
 
     // * str_manipulation.c
     char *my_revstr(char *str);

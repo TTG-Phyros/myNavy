@@ -15,10 +15,10 @@ int intlen(int nb)
     return i;
 }
 
-int *decimal_to_binary(int nb)
+int *decimal_to_binary(int nb, int len)
 {
-    int *ans = malloc(sizeof(int) * 23);
-    for (int i = 22, j = 0; i >= 0; i--, j++) {
+    int *ans = malloc(sizeof(int) * (len + 1));
+    for (int i = len, j = 0; i >= 0; i--, j++) {
         int k = nb >> i;
         if (k & 1)
             ans[j] = 1;
@@ -28,10 +28,10 @@ int *decimal_to_binary(int nb)
     return ans;
 }
 
-int binary_to_decimal(int *list_nb)
+int binary_to_decimal(int *list_nb, int len)
 {
     int ans = 0, ac_mul = 1;
-    for (int i = 22; i > 0; i--) {
+    for (int i = len; i > 0; i--) {
         ans += list_nb[i] * ac_mul;
         ac_mul *= 2;
     }
