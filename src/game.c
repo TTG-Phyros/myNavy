@@ -7,24 +7,20 @@
 
 #include "../include/navy.h"
 
-char *send_data(int pid)
+int check_finished(char **map, int tour)
 {
-    char *buffer = malloc(sizeof(char) * 3);
-    int read_value = 0;
-    write(1, "\nattack: ", 10);
-    while ((read_value = read(1, buffer, 2)) != 2)
-        ;
-    if (buffer[0] < 'A' || buffer[0] > 'H') {
-        write(1, "\nwrong position", 16);
-        return send_data(pid);
+    int i = 0, y = 0;
+    while (map[i]) 
+    {
+        if (map[i][y] >= '2' || map[i][y] <= '5') {
+            return !tour;
+        }
+        if (map[i][y] == '\0') {
+            i++, y = 0;
+        }
+        y++;
     }
-    if (buffer[1] < '1' || buffer[1] > '8') {
-        write(1, "\nwrong position", 16);
-        return send_data(pid);
-    }
-    send_data_to_pid(decimal_to_binary(buffer[0], 7), pid, 8);
-    send_data_to_pid(decimal_to_binary(buffer[1], 7), pid, 8);
-    return buffer;
+    return -1;
 }
 
 void update_enemy_map(char **enemy_map, int bombed, char *case_bombed)
@@ -44,17 +40,16 @@ void update_enemy_map(char **enemy_map, int bombed, char *case_bombed)
     }
 }
 
-int update_my_map(char **my_map, int *played_move, int receiver_pid)
+int update_my_map(char **my_map, int *played_move, int receiver_pid, int *tour)
 {
     int letter = binary_to_decimal(played_move, 7) - 'A';
     int *numbers = malloc(sizeof(int) * 8);
     for (int i = 0; i <= 8; i++)
         numbers[i] = played_move[8 + i];
     int number = binary_to_decimal(numbers, 8) - '0' - 1;
-    if (number <= 0)
-        number = 0;
-    if (letter <= 0)
-        letter = 0;
+    if (number <= 0) number = 0;
+    if (letter <= 0) letter = 0;
+    if (number == 255 - '0' - 1) return (*tour = -1);
     if (my_map[number][letter] >= '2' && my_map[number][letter] <= '5') {
         my_map[number][letter] = 'x';
         return kill(receiver_pid, SIGUSR1);
@@ -78,7 +73,7 @@ void game(int receiver_pid, char *filepath, int ac)
     char **my_map = create_map_from_file(filepath);
     char **enemy_map = create_empty_map(), *case_bombed;
     int tour = ac - 2, *played_move;
-    while (tour != -1) {
+    while (tour >= 0) {
         if (tour == 0) {
             c_one_is_my_bff(ac, my_map, enemy_map, 1);
             case_bombed = send_data(receiver_pid);
@@ -89,8 +84,12 @@ void game(int receiver_pid, char *filepath, int ac)
             c_one_is_my_bff(ac, my_map, enemy_map, 2);
             write(1, "\nwaiting for enemy's attack...\n", 31);
             played_move = receive_data(16);
-            update_my_map(my_map, played_move, receiver_pid);
+            update_my_map(my_map, played_move, receiver_pid, &tour);
         }
-        tour = !tour;
+        tour = check_finished(my_map, tour);
+    }
+    if (tour == -1) {
+        send_death(receiver_pid);
     }
 }
+

@@ -7,6 +7,26 @@
 
 #include "../include/navy.h"
 
+char *send_data(int pid)
+{
+    char *buffer = malloc(sizeof(char) * 3);
+    int read_value = 0;
+    write(1, "\nattack: ", 10);
+    while ((read_value = read(1, buffer, 2)) != 2)
+        ;
+    if (buffer[0] < 'A' || buffer[0] > 'H') {
+        write(1, "\nwrong position", 16);
+        return send_data(pid);
+    }
+    if (buffer[1] < '1' || buffer[1] > '8') {
+        write(1, "\nwrong position", 16);
+        return send_data(pid);
+    }
+    send_data_to_pid(decimal_to_binary(buffer[0], 7), pid, 8);
+    send_data_to_pid(decimal_to_binary(buffer[1], 7), pid, 8);
+    return buffer;
+}
+
 int display_pid(int ac)
 {
     int pid = getpid();
@@ -42,5 +62,13 @@ void send_data_to_pid(int *bin_info, int pid, int len)
         if (bin_info[i] == 1) {
             kill(pid, SIGUSR2);
         }
+    }
+}
+
+void send_death(int pid)
+{
+    for (int i = 0; i <= 16; i++) {
+        usleep(10000);
+        kill(pid, SIGUSR1);
     }
 }

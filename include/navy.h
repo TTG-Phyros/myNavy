@@ -34,7 +34,9 @@
     int display_pid(int ac);
     void send_pid(int pid, char *str, int len);
     void send_data_to_pid(int *bin_info, int pid, int len);
-
+    void send_death(int pid);
+    char *send_data(int pid);
+    
     // * signal_handling.c
     void data_handler(int signo);
     int *receive_data(int len);
@@ -53,6 +55,7 @@
 
     // * game.c
     void game(int receiver_pid, char *filepath, int ac);
+    int check_finished(char **map, int tour);
 
     // * map.c
     void display_map(char **my_map, char **enemy_map);
