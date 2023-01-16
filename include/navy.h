@@ -33,6 +33,7 @@
     // * connection.c
     int display_pid(int ac);
     void send_pid(int pid, char *str, int len);
+    void send_data_to_pid(int *bin_info, int pid, int len);
 
     // * signal_handling.c
     void data_handler(int signo);
@@ -48,12 +49,13 @@
 
     // * main.c
     int main(int ac, char **av);
-    void flag_h(void);
+    int flag_h(void);
 
     // * game.c
     void game(int receiver_pid, char *filepath, int ac);
 
     // * map.c
+    void display_map(char **my_map, char **enemy_map);
     char **create_empty_map(void);
     void i_love_c_one(char **map, char **coords, int i, int j);
     char **create_map_from_file(char *fp);

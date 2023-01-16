@@ -48,7 +48,6 @@ char *int_to_str(int nb)
         nb /= 10;
     }
     my_revstr(str);
-    printf("%s\n", str);
     return str;
 }
 
