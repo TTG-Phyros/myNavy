@@ -26,8 +26,6 @@ int main(int ac, char **av)
     if (error == 1)
         return 0;
     if (ac == 2) {
-        if (av[1][0] == '-' && av[1][1] == 'H')
-            return cat_help(HELP);
         client_pid = binary_to_decimal(receive_data(23), 22);
         write(1, "\nenemy connected\n", 18);
         game(client_pid, av[1], ac);

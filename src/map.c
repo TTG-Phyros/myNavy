@@ -56,3 +56,9 @@ char **create_map_from_file(char *fp)
             i_love_c_one(map, coords, i, j);
     return map;
 }
+
+void c_one_is_my_bff(int ac, char **my_map, char **enemy_map, int choice)
+{
+    if (ac == choice + 1)
+        display_map(my_map, enemy_map);
+}

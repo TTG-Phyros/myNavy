@@ -36,7 +36,7 @@
     void send_data_to_pid(int *bin_info, int pid, int len);
     void send_death(int pid);
     char *send_data(int pid);
-    
+
     // * signal_handling.c
     void data_handler(int signo);
     int *receive_data(int len);
@@ -62,6 +62,7 @@
     char **create_empty_map(void);
     void i_love_c_one(char **map, char **coords, int i, int j);
     char **create_map_from_file(char *fp);
+    void c_one_is_my_bff(int ac, char **my_map, char **enemy_map, int choice);
 
     // * cat.c
     int cat_help(char *str);

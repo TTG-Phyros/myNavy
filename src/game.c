@@ -10,8 +10,7 @@
 int check_finished(char **map, int tour)
 {
     int i = 0, y = 0;
-    while (map[i]) 
-    {
+    while (map[i]) {
         if (map[i][y] >= '2' || map[i][y] <= '5') {
             return !tour;
         }
@@ -40,17 +39,29 @@ void update_enemy_map(char **enemy_map, int bombed, char *case_bombed)
     }
 }
 
+void display_bombed(int letter, int number, int choice)
+{
+    char lett = letter, numb = number;
+    write(1, &lett, 1);
+    write(1, &numb, 1);
+    if (choice == 1)
+        write(1, ": hit\n", 6);
+    if (choice == 2)
+        write(1, ": missed\n", 10);
+}
+
 int update_my_map(char **my_map, int *played_move, int receiver_pid, int *tour)
 {
     int letter = binary_to_decimal(played_move, 7) - 'A';
     int *numbers = malloc(sizeof(int) * 8);
     for (int i = 0; i <= 8; i++)
         numbers[i] = played_move[8 + i];
-    int number = binary_to_decimal(numbers, 8) - '0' - 1;
+    int number = binary_to_decimal(numbers, 8) - '0';
     if (number <= 0) number = 0;
     if (letter <= 0) letter = 0;
     if (number == 255 - '0' - 1) return (*tour = -1);
     if (my_map[number][letter] >= '2' && my_map[number][letter] <= '5') {
+        display_bombed(letter + 'A', number + '0', 1);
         my_map[number][letter] = 'x';
         return kill(receiver_pid, SIGUSR1);
     }
@@ -58,14 +69,9 @@ int update_my_map(char **my_map, int *played_move, int receiver_pid, int *tour)
         my_map[number][letter] = 'x';
         return kill(receiver_pid, SIGUSR1);
     }
+    display_bombed(letter + 'A', number + '0', 2);
     my_map[number][letter] = 'o';
     return kill(receiver_pid, SIGUSR2);
-}
-
-void c_one_is_my_bff(int ac, char **my_map, char **enemy_map, int choice)
-{
-    if (ac == choice + 1)
-            display_map(my_map, enemy_map);
 }
 
 void game(int receiver_pid, char *filepath, int ac)
@@ -88,8 +94,6 @@ void game(int receiver_pid, char *filepath, int ac)
         }
         tour = check_finished(my_map, tour);
     }
-    if (tour == -1) {
+    if (tour == -1)
         send_death(receiver_pid);
-    }
 }
-
