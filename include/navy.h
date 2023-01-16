@@ -11,10 +11,10 @@
     #include <stdlib.h>
     #include <unistd.h>
     #include <signal.h>
-
-    //=============
+    #include <fcntl.h>
     #include <stdio.h>
-    //=============
+
+    #define HELP "content/h_graphic"
 
     // * int_manipulation.c
     int intlen(int nb);
@@ -59,5 +59,9 @@
     char **create_empty_map(void);
     void i_love_c_one(char **map, char **coords, int i, int j);
     char **create_map_from_file(char *fp);
+
+    // * cat.c
+    int cat_help(char *str);
+    int get_nbr_char(char const *filepath);
 
 #endif

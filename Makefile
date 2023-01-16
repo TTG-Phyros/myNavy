@@ -18,11 +18,12 @@ SRC				=		./src/main.c				\
 						./src/str_manipulation.c	\
 						./src/game.c				\
 						./src/map.c					\
+						./src/cat.c
 
 OBJ				=				$(SRC:.c=.o)
 
-all:    $(SRC)
-		gcc -g3 $(SRC) -o $(NAME) $(CFLAGS)
+all:    $(OBJ)
+		gcc -g3 $(OBJ) -o $(NAME) $(CFLAGS)
 
 clean:
 		rm -f $(OBJ)
