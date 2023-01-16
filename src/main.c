@@ -23,13 +23,13 @@ int main(int ac, char **av)
     if (error == 1)
         return 0;
     if (ac == 2) {
-        client_pid = binary_to_decimal(receive_pid(), 22);
+        client_pid = binary_to_decimal(receive_data(23), 22);
         write(1, "\nenemy connected\n", 18);
-        game(client_pid, av[1]);
+        game(client_pid, av[1], ac);
     }
     if (ac == 3) {
         write(1, "\nsuccessfully connected\n", 25);
-        game(str_to_int(av[1]), av[2]);
+        game(str_to_int(av[1]), av[2], ac);
     }
     return client_pid = 0;
 }

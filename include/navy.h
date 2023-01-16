@@ -32,13 +32,11 @@
 
     // * connection.c
     int display_pid(int ac);
-    void send_pid(int pid, char *str);
+    void send_pid(int pid, char *str, int len);
 
     // * signal_handling.c
-    void sig_handler(int signo);
-    int quit_handler(int counter_o, int counter_t);
-    int signal_handling(int *counter_o, int *counter_t);
-    int *receive_pid(void);
+    void data_handler(int signo);
+    int *receive_data(int len);
 
     // * file_gestion.c
     int compt_nb_lines(char *filepath);
@@ -53,7 +51,7 @@
     void flag_h(void);
 
     // * game.c
-    void game(int receiver_pid, char *filepath);
+    void game(int receiver_pid, char *filepath, int ac);
 
     // * map.c
     char **create_empty_map(void);

@@ -11,8 +11,7 @@ char *my_revstr(char *str)
 {
     int i = 0;
     char temp;
-    for (; str[i] != '\0'; i++)
-        ;
+    for (; str[i]; i++);
     i--;
     for (int j = 0; j <= i / 2; j++, i--) {
         temp = str[j];
@@ -40,22 +39,23 @@ int str_to_int(char *str)
 
 char *int_to_str(int nb)
 {
-    char *str = malloc(intlen(nb) + 1 * sizeof(char));
+    char *str = malloc((intlen(nb) + 1) * sizeof(char));
     if (nb == 0)
         str[0] = '0';
-    for (int i = 0; nb > 0; i++) {
+    int i = 0;
+    for (; nb > 0; i++) {
         str[i] = nb % 10 + '0';
         nb /= 10;
     }
     my_revstr(str);
+    printf("%s\n", str);
     return str;
 }
 
 int my_strlen(char *str)
 {
     int i = 0;
-    for (; str[i]; i++)
-        ;
+    for (; str[i]; i++);
     return i;
 }
 

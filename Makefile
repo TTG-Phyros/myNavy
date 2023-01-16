@@ -21,8 +21,8 @@ SRC				=		./src/main.c				\
 
 OBJ				=				$(SRC:.c=.o)
 
-all:    $(OBJ)
-		gcc -g3 $(OBJ) -o $(NAME) $(CFLAGS)
+all:    $(SRC)
+		gcc -g3 $(SRC) -o $(NAME) $(CFLAGS)
 
 clean:
 		rm -f $(OBJ)

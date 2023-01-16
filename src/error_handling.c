@@ -76,7 +76,7 @@ int error_gestion_arguments(int ac, char **av)
             return error_text_display(4);
     int index = 1, pid = display_pid(ac);
     if (ac == 3) {
-        send_pid(pid, av[1]);
+        send_pid(pid, av[1], 22);
         index = 2;
     }
     char **map = file_to_array(av[index]);

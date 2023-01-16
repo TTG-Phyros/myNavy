@@ -18,10 +18,10 @@ int display_pid(int ac)
     return pid;
 }
 
-void send_pid(int pid, char *str)
+void send_pid(int pid, char *str, int len)
 {
-    int *binary_pid = decimal_to_binary(pid, 22), host = str_to_int(str);
-    for (int i = 0; i <= 22; i++) {
+    int *binary_pid = decimal_to_binary(pid, len), host = str_to_int(str);
+    for (int i = 0; i <= len; i++) {
         usleep(10000);
         if (binary_pid[i] == 0) {
             kill(host, SIGUSR1);
