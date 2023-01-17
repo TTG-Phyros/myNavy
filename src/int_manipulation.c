@@ -37,3 +37,11 @@ int binary_to_decimal(int *list_nb, int len)
     }
     return ans;
 }
+
+int check_if_number(char *str)
+{
+    for (int i = 0; str[i]; i++)
+        if (str[i] < '0' || str[i] > '9')
+            return -1;
+    return 0;
+}

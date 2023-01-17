@@ -37,12 +37,12 @@ int *receive_data(int len)
     return pid;
 }
 
-int lose(int choice, int receiver_pid, char **my_map, char **enemy_map)
+int lose(int choice, char **my_map, char **enemy_map)
 {
     if (choice == 1) {
         display_map(my_map, enemy_map);
         write(1, "\nEnemy won\n\n", 13);
-        return send_death(receiver_pid);
+        return 1;
     }
     if (choice == 2) {
         display_map(my_map, enemy_map);

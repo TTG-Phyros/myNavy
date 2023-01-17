@@ -35,3 +35,14 @@ int cat_help(char *str)
     write (1, buff, size);
     return (0);
 }
+
+void display_bombed(int letter, int number, int choice)
+{
+    char lett = letter, numb = number;
+    write(1, &lett, 1);
+    write(1, &numb, 1);
+    if (choice == 1)
+        write(1, ": hit\n", 6);
+    if (choice == 2)
+        write(1, ": missed\n", 10);
+}

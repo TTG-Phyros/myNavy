@@ -7,6 +7,22 @@
 
 #include "../include/navy.h"
 
+int check_file(char **map)
+{
+    char **empty_map = create_empty_map();
+    int return_value = 0;
+    int i = 0;
+    for (; map[i]; i++) {
+        if (map[i][0] != (2 + i) + '0')
+            return 84;
+        for (int j = 0; j < map[i][0] - '0'; j++)
+            return_value += i_love_c_one(empty_map, map, i, j);
+    }
+    if (return_value > 0 || i != 4)
+        return 84;
+    return 0;
+}
+
 int good_boat_check(char **map)
 {
     for (int i = 0, good = 0; map[i]; i++, good = 0) {
@@ -17,7 +33,7 @@ int good_boat_check(char **map)
         if (good != 1)
             return 84;
     }
-    return 0;
+    return check_file(map);
 }
 
 int error_gestion_file(char **map)
@@ -27,7 +43,8 @@ int error_gestion_file(char **map)
     for (int i = 0; map[i]; i++) {
         if (map[i][0] > '5' || map[i][0] < '2')
             return 84;
-        if (boats[map[i][0] - '0' - 2] == 1) return 84;
+        if (boats[map[i][0] - '0' - 2] == 1)
+            return 84;
         else
             boats[map[i][0] - '0' - 2] = 1;
         if (map[i][1] != ':' || map[i][4] != ':')
@@ -63,14 +80,6 @@ int error_text_display(int choice)
         write(2, "Invalid PID.\n", 14);
         return 84;
     }
-    return 0;
-}
-
-int check_if_number(char *str)
-{
-    for (int i = 0; str[i]; i++)
-        if (str[i] < '0' || str[i] > '9')
-            return -1;
     return 0;
 }
 

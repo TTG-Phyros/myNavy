@@ -68,12 +68,3 @@ void send_data_to_pid(int *bin_info, int pid, int len)
         }
     }
 }
-
-int send_death(int pid)
-{
-    for (int i = 0; i <= 15; i++) {
-        usleep(10000);
-        kill(pid, SIGUSR2);
-    }
-    return 0;
-}

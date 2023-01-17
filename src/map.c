@@ -61,12 +61,9 @@ int i_love_c_one(char **map, char **coords, int i, int j)
 char **create_map_from_file(char *fp)
 {
     char **coords = file_to_array(fp), **map = create_empty_map();
-    int return_value = 0;
     for (int i = 0; coords[i]; i++)
         for (int j = 0; j < coords[i][0] - '0'; j++)
-            return_value += i_love_c_one(map, coords, i, j);
-    if (return_value > 0)
-        map = NULL;
+            i_love_c_one(map, coords, i, j);
     return map;
 }
 

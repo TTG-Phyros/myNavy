@@ -7,13 +7,27 @@
 
 #include "../include/navy.h"
 
-int check_finished(char **map, int tour)
+int check_finished_enemy(char **enemy_map, int tour)
+{
+    int count_x = 0;
+    for (int i = 0, y = 0; enemy_map[i]; y++) {
+        if (enemy_map[i][y] == 'x')
+            count_x++;
+        if (enemy_map[i][y] == '\0')
+            i++, y = -1;
+    }
+    if (count_x == 14)
+        return -2;
+    return !tour;
+}
+
+int check_finished(char **map, int tour, char **enemy_map)
 {
     if (tour < 0)
         return tour;
     for (int i = 0, y = 0; map[i]; y++) {
         if (map[i][y] >= '2' && map[i][y] <= '5')
-            return !tour;
+            return check_finished_enemy(enemy_map, tour);
         if (map[i][y] == '\0')
             i++, y = -1;
     }
@@ -35,17 +49,6 @@ void update_enemy_map(char **enemy_map, int bombed, char *case_bombed)
         write(1, ": missed\n", 10);
         enemy_map[number][letter] = 'o';
     }
-}
-
-void display_bombed(int letter, int number, int choice)
-{
-    char lett = letter, numb = number;
-    write(1, &lett, 1);
-    write(1, &numb, 1);
-    if (choice == 1)
-        write(1, ": hit\n", 6);
-    if (choice == 2)
-        write(1, ": missed\n", 10);
 }
 
 int update_my_map(char **my_map, int *played_move, int receiver_pid, int *tour)
@@ -78,7 +81,7 @@ int game(int receiver_pid, char *filepath, int ac)
     if (my_map == NULL) return error_text_display(3);
     char **enemy_map = create_empty_map(), *case_bombed;
     int tour = ac - 2, *played_move;
-    while ((tour = check_finished(my_map, tour)) >= 0) {
+    while ((tour = check_finished(my_map, tour, enemy_map)) >= 0) {
         if (tour == 1) {
             c_one_is_my_bff(ac, my_map, enemy_map, 1);
             case_bombed = send_data(receiver_pid);
@@ -92,6 +95,6 @@ int game(int receiver_pid, char *filepath, int ac)
             update_my_map(my_map, played_move, receiver_pid, &tour);
         }
     }
-    if (tour == -1) return lose(1, receiver_pid, my_map, enemy_map);
-    return lose(2, receiver_pid, my_map, enemy_map);
+    if (tour == -1) return lose(1, my_map, enemy_map);
+    return lose(2, my_map, enemy_map);
 }
