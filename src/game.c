@@ -54,14 +54,14 @@ int update_my_map(char **my_map, int *played_move, int receiver_pid, int *tour)
 {
     int letter = binary_to_decimal(played_move, 7) - 'A';
     int *numbers = malloc(sizeof(int) * 8);
-    for (int i = 0; i <= 8; i++)
+    for (int i = 0; i < 8; i++)
         numbers[i] = played_move[8 + i];
-    int number = binary_to_decimal(numbers, 8) - '0';
+    int number = binary_to_decimal(numbers, 7) - '1';
     if (number <= 0) number = 0;
     if (letter <= 0) letter = 0;
-    if (number == 255 - '0' - 1) return (*tour = -1);
+    if (number == 255 - '1') return (*tour = -1);
     if (my_map[number][letter] >= '2' && my_map[number][letter] <= '5') {
-        display_bombed(letter + 'A', number + '0', 1);
+        display_bombed(letter + 'A', number + '1', 1);
         my_map[number][letter] = 'x';
         return kill(receiver_pid, SIGUSR1);
     }
@@ -69,17 +69,18 @@ int update_my_map(char **my_map, int *played_move, int receiver_pid, int *tour)
         my_map[number][letter] = 'x';
         return kill(receiver_pid, SIGUSR1);
     }
-    display_bombed(letter + 'A', number + '0', 2);
+    display_bombed(letter + 'A', number + '1', 2);
     my_map[number][letter] = 'o';
     return kill(receiver_pid, SIGUSR2);
 }
 
-void game(int receiver_pid, char *filepath, int ac)
+int game(int receiver_pid, char *filepath, int ac)
 {
     char **my_map = create_map_from_file(filepath);
+    if (my_map == NULL) return error_text_display(3);
     char **enemy_map = create_empty_map(), *case_bombed;
     int tour = ac - 2, *played_move;
-    while (tour >= 0) {
+    while (tour != -1) {
         if (tour == 0) {
             c_one_is_my_bff(ac, my_map, enemy_map, 1);
             case_bombed = send_data(receiver_pid);
@@ -94,6 +95,5 @@ void game(int receiver_pid, char *filepath, int ac)
         }
         tour = check_finished(my_map, tour);
     }
-    if (tour == -1)
-        send_death(receiver_pid);
+    return send_death(receiver_pid);
 }

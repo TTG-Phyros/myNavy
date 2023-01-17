@@ -34,7 +34,7 @@
     int display_pid(int ac);
     void send_pid(int pid, char *str, int len);
     void send_data_to_pid(int *bin_info, int pid, int len);
-    void send_death(int pid);
+    int send_death(int pid);
     char *send_data(int pid);
 
     // * signal_handling.c
@@ -47,6 +47,7 @@
     char **file_to_array(char *filepath);
 
     // * error_handling.c
+    int error_text_display(int choice);
     int error_gestion_arguments(int ac, char **av);
 
     // * main.c
@@ -54,13 +55,13 @@
     int flag_h(void);
 
     // * game.c
-    void game(int receiver_pid, char *filepath, int ac);
+    int game(int receiver_pid, char *filepath, int ac);
     int check_finished(char **map, int tour);
 
     // * map.c
     void display_map(char **my_map, char **enemy_map);
     char **create_empty_map(void);
-    void i_love_c_one(char **map, char **coords, int i, int j);
+    int i_love_c_one(char **map, char **coords, int i, int j);
     char **create_map_from_file(char *fp);
     void c_one_is_my_bff(int ac, char **my_map, char **enemy_map, int choice);
 

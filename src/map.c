@@ -40,20 +40,33 @@ char **create_empty_map(void)
     return map;
 }
 
-void i_love_c_one(char **map, char **coords, int i, int j)
+int i_love_c_one(char **map, char **coords, int i, int j)
 {
-    if (coords[i][5] - coords[i][2] != 0)
-        map[coords[i][3] - '0' - 1][coords[i][2] - 'A' + j] = coords[i][0];
-    if (coords[i][6] - coords[i][3] != 0)
-        map[coords[i][3] - '0' + j - 1][coords[i][2] - 'A'] = coords[i][0];
+    int x = coords[i][3] - '0' - 1, y = coords[i][2] - 'A';
+    if (coords[i][5] - coords[i][2] != 0) {
+        if (map[x][y + j] == '.')
+            map[x][y + j] = coords[i][0];
+        else
+            return 84;
+    }
+    if (coords[i][6] - coords[i][3] != 0) {
+        if (map[x + j][y] == '.')
+            map[x + j][y] = coords[i][0];
+        else
+            return 84;
+    }
+    return 0;
 }
 
 char **create_map_from_file(char *fp)
 {
     char **coords = file_to_array(fp), **map = create_empty_map();
+    int return_value = 0;
     for (int i = 0; coords[i]; i++)
         for (int j = 0; j < coords[i][0] - '0'; j++)
-            i_love_c_one(map, coords, i, j);
+            return_value += i_love_c_one(map, coords, i, j);
+    if (return_value > 0)
+        map = NULL;
     return map;
 }
 

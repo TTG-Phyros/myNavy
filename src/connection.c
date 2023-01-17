@@ -9,21 +9,24 @@
 
 char *send_data(int pid)
 {
-    char *buffer = malloc(sizeof(char) * 3);
-    int read_value = 0;
+    char *buffer = NULL;
+    ssize_t read_value = 0;
+    size_t len = 0;
     write(1, "\nattack: ", 10);
-    while ((read_value = read(1, buffer, 2)) != 2)
-        ;
+    while ((read_value = getline(&buffer, &len, stdin)) != 3) {
+        if (read_value != 3)
+            write(1, "\nwrong position", 16);
+        write(1, "\nattack: ", 10);
+    }
     if (buffer[0] < 'A' || buffer[0] > 'H') {
         write(1, "\nwrong position", 16);
         return send_data(pid);
-    }
-    if (buffer[1] < '1' || buffer[1] > '8') {
+    } else if (buffer[1] < '1' || buffer[1] > '8') {
         write(1, "\nwrong position", 16);
         return send_data(pid);
     }
-    send_data_to_pid(decimal_to_binary(buffer[0], 7), pid, 8);
-    send_data_to_pid(decimal_to_binary(buffer[1], 7), pid, 8);
+    send_data_to_pid(decimal_to_binary(buffer[0], 7), pid, 7);
+    send_data_to_pid(decimal_to_binary(buffer[1], 7), pid, 7);
     return buffer;
 }
 
@@ -65,10 +68,11 @@ void send_data_to_pid(int *bin_info, int pid, int len)
     }
 }
 
-void send_death(int pid)
+int send_death(int pid)
 {
     for (int i = 0; i <= 16; i++) {
         usleep(10000);
         kill(pid, SIGUSR1);
     }
+    return 0;
 }
