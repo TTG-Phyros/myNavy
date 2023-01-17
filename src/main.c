@@ -27,11 +27,13 @@ int main(int ac, char **av)
         return 0;
     if (ac == 2) {
         client_pid = binary_to_decimal(receive_data(23), 22);
+        kill(client_pid, SIGUSR1);
         write(1, "\nenemy connected\n", 18);
         r_value = game(client_pid, av[1], ac);
     }
     if (ac == 3) {
-        write(1, "\nsuccessfully connected\n", 25);
+        receive_data(1);
+        write(1, "successfully connected\n", 24);
         r_value = game(str_to_int(av[1]), av[2], ac);
     }
     return r_value;

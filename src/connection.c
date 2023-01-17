@@ -36,8 +36,9 @@ int display_pid(int ac)
     char *str_pid = int_to_str(pid);
     write(1, "my_pid: ", 9);
     write(1, str_pid, my_strlen(str_pid));
+    write(1, "\n", 1);
     if (ac == 2)
-        write(1, "\nwaiting for enemy connection...\n", 34);
+        write(1, "waiting for enemy connection...\n", 33);
     return pid;
 }
 
@@ -70,9 +71,9 @@ void send_data_to_pid(int *bin_info, int pid, int len)
 
 int send_death(int pid)
 {
-    for (int i = 0; i <= 16; i++) {
+    for (int i = 0; i <= 15; i++) {
         usleep(10000);
-        kill(pid, SIGUSR1);
+        kill(pid, SIGUSR2);
     }
     return 0;
 }

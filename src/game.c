@@ -9,15 +9,13 @@
 
 int check_finished(char **map, int tour)
 {
-    int i = 0, y = 0;
-    while (map[i]) {
-        if (map[i][y] >= '2' || map[i][y] <= '5') {
+    if (tour < 0)
+        return tour;
+    for (int i = 0, y = 0; map[i]; y++) {
+        if (map[i][y] >= '2' && map[i][y] <= '5')
             return !tour;
-        }
-        if (map[i][y] == '\0') {
-            i++, y = 0;
-        }
-        y++;
+        if (map[i][y] == '\0')
+            i++, y = -1;
     }
     return -1;
 }
@@ -59,7 +57,7 @@ int update_my_map(char **my_map, int *played_move, int receiver_pid, int *tour)
     int number = binary_to_decimal(numbers, 7) - '1';
     if (number <= 0) number = 0;
     if (letter <= 0) letter = 0;
-    if (number == 255 - '1') return (*tour = -1);
+    if (number == 78) return (*tour = -2);
     if (my_map[number][letter] >= '2' && my_map[number][letter] <= '5') {
         display_bombed(letter + 'A', number + '1', 1);
         my_map[number][letter] = 'x';
@@ -80,20 +78,20 @@ int game(int receiver_pid, char *filepath, int ac)
     if (my_map == NULL) return error_text_display(3);
     char **enemy_map = create_empty_map(), *case_bombed;
     int tour = ac - 2, *played_move;
-    while (tour != -1) {
-        if (tour == 0) {
+    while ((tour = check_finished(my_map, tour)) >= 0) {
+        if (tour == 1) {
             c_one_is_my_bff(ac, my_map, enemy_map, 1);
             case_bombed = send_data(receiver_pid);
             played_move = receive_data(1);
             update_enemy_map(enemy_map, played_move[0], case_bombed);
         }
-        if (tour == 1) {
+        if (tour == 0) {
             c_one_is_my_bff(ac, my_map, enemy_map, 2);
-            write(1, "\nwaiting for enemy's attack...\n", 31);
+            write(1, "\nwaiting for enemy's attack...\n", 32);
             played_move = receive_data(16);
             update_my_map(my_map, played_move, receiver_pid, &tour);
         }
-        tour = check_finished(my_map, tour);
     }
-    return send_death(receiver_pid);
+    if (tour == -1) return lose(1, receiver_pid, my_map, enemy_map);
+    return lose(2, receiver_pid, my_map, enemy_map);
 }
