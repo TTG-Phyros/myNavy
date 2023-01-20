@@ -15,14 +15,14 @@ char *send_data(int pid)
     write(1, "\nattack: ", 10);
     while ((read_value = getline(&buffer, &len, stdin)) != 3) {
         if (read_value != 3)
-            write(1, "\nwrong position", 16);
+            write(1, "wrong position", 15);
         write(1, "\nattack: ", 10);
     }
     if (buffer[0] < 'A' || buffer[0] > 'H') {
-        write(1, "\nwrong position", 16);
+        write(1, "wrong position", 15);
         return send_data(pid);
     } else if (buffer[1] < '1' || buffer[1] > '8') {
-        write(1, "\nwrong position", 16);
+        write(1, "wrong position", 15);
         return send_data(pid);
     }
     send_data_to_pid(decimal_to_binary(buffer[0], 7), pid, 7);
