@@ -7,7 +7,20 @@
 
 #include "../include/navy.h"
 
-char *send_data(int pid)
+char *visual_output(int choice, int pid, char **enemy_map)
+{
+    if (choice == 1) {
+        write(1, "wrong position", 15);
+        return send_data(pid, enemy_map);
+    }
+    if (choice == 2) {
+        write(1, "case already bombed", 20);
+        return send_data(pid, enemy_map);
+    }
+    return NULL;
+}
+
+char *send_data(int pid, char **enemy_map)
 {
     char *buffer = NULL;
     ssize_t read_value = 0;
@@ -19,12 +32,11 @@ char *send_data(int pid)
         write(1, "\nattack: ", 10);
     }
     if (buffer[0] < 'A' || buffer[0] > 'H') {
-        write(1, "wrong position", 15);
-        return send_data(pid);
-    } else if (buffer[1] < '1' || buffer[1] > '8') {
-        write(1, "wrong position", 15);
-        return send_data(pid);
-    }
+        return visual_output(1, pid, enemy_map);
+    } else if (buffer[1] < '1' || buffer[1] > '8')
+        return visual_output(1, pid, enemy_map);
+    if (enemy_map[buffer[1] - '1'][buffer[0] - 'A'] == 'x')
+        return visual_output(2, pid, enemy_map);
     send_data_to_pid(decimal_to_binary(buffer[0], 7), pid, 7);
     send_data_to_pid(decimal_to_binary(buffer[1], 7), pid, 7);
     return buffer;

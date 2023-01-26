@@ -85,17 +85,17 @@ int error_text_display(int choice)
 
 int error_gestion_arguments(int ac, char **av)
 {
-    if (ac > 3)
-        return error_text_display(1);
+    if (ac > 3) return error_text_display(1);
     if (ac < 2)
         return error_text_display(2);
-    if (ac == 2)
+    if (ac == 2) {
         if (av[1][0] == '-' && av[1][1] == 'h' && !av[1][2])
             return error_text_display(4);
+        if (check_if_number(av[1]) == 0) return error_text_display(2);
+    }
     int index = 1;
     if (ac == 3) {
-        if (check_if_number(av[1]) == -1)
-            return error_text_display(5);
+        if (check_if_number(av[1]) == -1) return error_text_display(5);
         index = 2;
     }
     char **map = file_to_array(av[index]);

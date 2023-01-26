@@ -84,7 +84,7 @@ int game(int receiver_pid, char *filepath, int ac)
     while ((tour = check_finished(my_map, tour, enemy_map)) >= 0) {
         if (tour == 1) {
             c_one_is_my_bff(ac, my_map, enemy_map, 1);
-            case_bombed = send_data(receiver_pid);
+            case_bombed = send_data(receiver_pid, enemy_map);
             played_move = receive_data(1);
             update_enemy_map(enemy_map, played_move[0], case_bombed);
         }

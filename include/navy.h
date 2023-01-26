@@ -25,7 +25,7 @@
         void display_bombed(int letter, int number, int choice);
 
         // * connection.c
-        char *send_data(int pid);
+        char *send_data(int pid, char **enemy_map);
         int display_pid(int ac);
         void send_pid(int pid, char *str, int len);
         void send_data_to_pid(int *bin_info, int pid, int len);

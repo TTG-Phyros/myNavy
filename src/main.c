@@ -18,8 +18,8 @@ int flag_h(void)
 
 int main(int ac, char **av)
 {
-    if (av[1][0] == '-' && av[1][1] == 'H')
-            return cat_help(HELP);
+    if (ac == 2 && av[1][0] == '-' && av[1][1] == 'H')
+        return cat_help(HELP);
     int client_pid, error = error_gestion_arguments(ac, av), r_value = 0;
     if (error == 84)
         return 84;
