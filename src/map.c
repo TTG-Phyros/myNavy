@@ -9,6 +9,7 @@
 
 void display_map(char **my_map, char **enemy_map)
 {
+    usleep(10000);
     write(1, "\nmy positions:\n", 16);
     write(1, " |A B C D E F G H\n", 19);
     write(1, "-+---------------\n", 19);
@@ -18,6 +19,7 @@ void display_map(char **my_map, char **enemy_map)
         write(1, space_str(my_map[i - 1]), my_strlen(my_map[i - 1]) * 2);
         write(1, "\n", 1);
     }
+    usleep(10000);
     write(1, "\nenemy's positions:\n", 21);
     write(1, " |A B C D E F G H\n", 19);
     write(1, "-+---------------\n", 19);
