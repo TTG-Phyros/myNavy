@@ -2,7 +2,7 @@
 
 **MyNavy** est un jeu de bataille navale introduit dans un terminal de commande. Grâce à l'utilisation des PID (Processus ID), deux terminaux de commande peuvent communiquer entre eux et permettre de faire se dérouler une partie de bataille navale en temps réel. Les deux joueurs s'affrontent à tour de rôle, et le premier à avoir touché tous les bateaux ennemis remporte la partie.
 
-## 🎮 Gameplay
+## 🎮 Gameplayp
 
 Les règles du jeu sont simples et s'inspirent du classique jeu de bataille navale :
 
@@ -63,3 +63,8 @@ Le joueur qui réussit à toucher tous les bateaux adverses en premier est décl
 ### Pour Nettoyer les fichiers :
 
     make fclean
+
+## Auteur
+
+| [<img src="https://github.com/NattanCochet.png?size=85" width=85><br><sub>Nattan Cochet</sub>](https://github.com/NattanCochet) | [<img src="https://github.com/TTG-Phyros.png?size=85" width=85><br><sub>Nicolas Audibert</sub>](https://github.com/TTG-Phyros)
+| :---: | :---: |
